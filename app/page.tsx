@@ -20,18 +20,51 @@ import {
 } from "@/shared/components/ui/select";
 import Image from "next/image";
 import { DatePicker } from "../shared/components/date_picker";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { Button } from "@/shared/components/ui/button";
+import axios from "axios";
+import { authenticate } from "@/shared/api/auth";
 
 export default function Home() {
   const [departureDate, setDepartureDate] = React.useState<Date | undefined>();
   const [arrivalDate, setArrivalDate] = React.useState<Date | undefined>();
   const [departureStation, setDepartureStation] = React.useState<string>("");
   const [arrivalStation, setArrivalStation] = React.useState<string>("");
+  const [flightRBD, setFlightRBD] = React.useState<string>("");
   const [adtCount, setAdtCount] = React.useState<number>(0);
   const [chdCount, setChdCount] = React.useState<number>(0);
   const [infCount, setInfCount] = React.useState<number>(0);
+
+  const API_PROTECTED_ENDPOINT = "https://test-api.worldticket.net/sms-gateway/schedule/routes?sales_channel=OTA"; // Replace with actual protected endpoint
+
+  const [token, setToken] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const login = async () => {
+      try {
+        const response = await fetch("/api/auth", {
+          method: "POST",
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok && data.access_token) {
+          setToken(data.access_token);
+          setError(null);
+        } else {
+          setError(data.error || "Authentication failed");
+        }
+      } catch (error) {
+        setError("Network error");
+        console.error("Error calling auth API:", error);
+      }
+    };
+
+    login();
+  }, []);
+  
 
   const DepartureDate = (date: Date | undefined) => {
     setDepartureDate(date);
@@ -83,10 +116,23 @@ export default function Home() {
     // Here you can send the infant count through an API request
   };
 
+  const handleRBDChange = (value: string) => {
+    setFlightRBD(value);
+    console.log("RBD:", value);
+    // Here you can send the arrival station through an API request
+  };
+
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Here you can send the booking data through an API request
+  };
+
   return (
     <div className="grid items-center justify-items-center min-h-screen font-[family-name:va(--font-geist-sans)">
       <main className="flex flex-col-reverse row-start-2 items-center">
         <div className="flex gap-20 flex-auto items-center">
+          {error && <p style={{ color: "red" }}>Error: {error}</p>}
           <Card>
             <CardHeader>
               <CardTitle>Create a new group booking</CardTitle>
@@ -94,11 +140,13 @@ export default function Home() {
                 By searching and fetching the available trains.
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <form>
+            <form>
+              <CardContent>
                 <div className="grid w-full items-center gap-4">
-                  <div className="flex flex-auto space-y-1.5">
-                    <Label className="" htmlFor="departure">Departure</Label>
+                  <Label className="" htmlFor="departure">
+                    Departure
+                  </Label>
+                  <div className="flex flex-auto gap-4">
                     <Select onValueChange={handleDepartureStationChange}>
                       <SelectTrigger className="w-[100%]">
                         <SelectValue placeholder="Departure Station" />
@@ -112,8 +160,8 @@ export default function Home() {
                     </Select>
                     <DatePicker onDateChange={DepartureDate} />
                   </div>
-                  <div className="flex flex-auto space-y-1.5">
-                    <Label htmlFor="arrival">Arrival</Label>
+                  <Label htmlFor="arrival">Arrival</Label>
+                  <div className="flex flex-auto gap-4">
                     <Select onValueChange={handleArrivalStationChange}>
                       <SelectTrigger className="w-[100%]">
                         <SelectValue placeholder="Arrival Station" />
@@ -127,21 +175,53 @@ export default function Home() {
                     </Select>
                     <DatePicker onDateChange={ArrivalDate} />
                   </div>
-                  <div className="grid grid-flow-col">
-                    <Label>Adult: </Label>
-                    <Input type="number" placeholder="Adult total" onChange={(e) => handleAdtCountChange(e.target.value)}/>
-                    <Label>Child: </Label>
-                    <Input type="number" placeholder="Child total" onChange={(e) => handleChdCountChange(e.target.value)}/>
-                    <Label>Infant: </Label>
-                    <Input type="number" placeholder="Infant total" onChange={(e) => handleInfCountChange(e.target.value)}/>
+                  <div className="flex flex-auto gap-4">
+                    <div className="flex flex-col gap-4">
+                      <Label>Adult: </Label>
+                      <Input
+                        type="number"
+                        placeholder="Adult total"
+                        onChange={(e) => handleAdtCountChange(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <Label>Child: </Label>
+                      <Input
+                        type="number"
+                        placeholder="Child total"
+                        onChange={(e) => handleChdCountChange(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <Label>Infant: </Label>
+                      <Input
+                        type="number"
+                        placeholder="Infant total"
+                        onChange={(e) => handleInfCountChange(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-auto gap-4">
+                    <div className="flex flex-col gap-4">
+                      <Label>Ticket Segment - RBD: </Label>
+                      <Select onValueChange={handleRBDChange}>
+                        <SelectTrigger className="w-[100%]">
+                          <SelectValue placeholder="RBD" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Y">Economy</SelectItem>
+                          <SelectItem value="C">Business</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
-              </form>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button variant="outline">Cancel</Button>
-              <Button>Search</Button>
-            </CardFooter>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button variant="outline">Cancel</Button>
+                <Button type="submit">Search</Button>
+              </CardFooter>
+            </form>
           </Card>
         </div>
         <Separator />
