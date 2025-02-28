@@ -24,7 +24,7 @@ import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { Button } from "@/shared/components/ui/button";
 import axios from "axios";
-import { authenticate } from "@/shared/api/auth";
+import { authenticate } from "@/app/api/auth";
 
 export default function Home() {
   const [departureDate, setDepartureDate] = React.useState<Date | undefined>();
@@ -41,30 +41,70 @@ export default function Home() {
   const [token, setToken] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const login = async () => {
-      try {
-        const response = await fetch("/api/auth", {
-          method: "POST",
-        });
-  
-        const data = await response.json();
-  
-        if (response.ok && data.access_token) {
-          setToken(data.access_token);
-          setError(null);
-        } else {
-          setError(data.error || "Authentication failed");
-        }
-      } catch (error) {
-        setError("Network error");
-        console.error("Error calling auth API:", error);
-      }
-    };
+  const [data, setData] = useState<any>(null);
 
-    login();
-  }, []);
-  
+  // useEffect(() => {
+  //   const login = async () => {
+  //     try {
+  //       const response = await fetch("/api/auth", {
+  //         method: "POST",
+  //       });
+
+  //       const data = await response.json();
+
+  //       if (response.ok && data.access_token) {
+  //         setToken(data.access_token);
+  //         setError(null);
+  //       } else {
+  //         setError(data.error || "Authentication failed");
+  //       }
+  //     } catch (error) {
+  //       setError("Network error");
+  //       console.error("Error calling auth API:", error);
+  //     }
+  //   };
+
+  //   login();
+  // }, []);
+
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await fetch("/api/auth", { method: "POST" });  // ✅ Correct API path
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+
+  //     const result = await response.json();
+  //     setData(result);
+  //     setError(null);
+  //   } catch (error: any) {
+  //     setError(error.message);
+  //     console.error("Error fetching API:", error);
+  //   }
+  // };
+
+  const login = async () => {
+    try {
+      const response = await fetch("/api/auth", {
+        method: "POST",
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.access_token) {
+        setToken(data.access_token);
+        sessionStorage.setItem("jwt_token", data.access_token); // Store JWT for future use
+        setError(null);
+      } else {
+        setError(data.error || "Authentication failed");
+      }
+    } catch (error) {
+      setError("Network error");
+      console.error("Error calling auth API:", error);
+    }
+  };
+
 
   const DepartureDate = (date: Date | undefined) => {
     setDepartureDate(date);
@@ -130,9 +170,15 @@ export default function Home() {
 
   return (
     <div className="grid items-center justify-items-center min-h-screen font-[family-name:va(--font-geist-sans)">
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
+      <div>
+      <h1>Next.js JWT Authentication</h1>
+      <button onClick={login}>Authenticate</button>
+      <p>Token: {token ? "Authenticated ✅" : "Not Authenticated ❌"}</p>
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
+    </div>
       <main className="flex flex-col-reverse row-start-2 items-center">
         <div className="flex gap-20 flex-auto items-center">
-          {error && <p style={{ color: "red" }}>Error: {error}</p>}
           <Card>
             <CardHeader>
               <CardTitle>Create a new group booking</CardTitle>
