@@ -40,63 +40,64 @@ import axios from "axios";
 //     }
 // }
 
-// export async function POST() {
-//     try {
-//         const fullUrl = `${BASE_URL}/auth`; // ❗ Replace with the correct endpoint
-
-//         console.log("🔍 API Request:", fullUrl);
-//         console.log("🔑 Using API Key:", API_KEY);
-
-//         const response = await axios.post(
-//             fullUrl,
-//             {}, // 🔹 If the API requires a body, add it here
-//             {
-//                 headers: {
-//                     "x-api-key": API_KEY,
-//                     "Content-Type": "application/json",
-//                 },
-//             }
-//         );
-
-//         console.log("✅ API Response:", response.data);
-//         return NextResponse.json(response.data);
-//     } catch (error: any) {
-//         console.error("❌ API Request Failed:", error?.response?.data || error?.message);
-//         return NextResponse.json({ error: "API request failed", details: error?.message }, { status: 500 });
-//     }
-// }
-
-const AUTH_URL = process.env.NEXT_PUBLIC_AUTH_URL || "";
-const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID || "";
-const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET || "";
-const USERNAME = process.env.NEXT_PUBLIC_USERNAME || "";
-const PASSWORD = process.env.NEXT_PUBLIC_PASSWORD || "";
-
 export async function POST() {
     try {
-        console.log("🔍 Requesting JWT Token...");
+        const fullUrl = `${BASE_URL}/auth`; // ❗ Replace with the correct endpoint
+
+        console.log("🔍 API Request:", fullUrl);
+        console.log("🔑 Using API Key:", API_KEY);
 
         const response = await axios.post(
-            AUTH_URL,
-            new URLSearchParams({
-                grant_type: "password",
-                client_id: CLIENT_ID,
-                client_secret: CLIENT_SECRET,
-                username: USERNAME,
-                password: PASSWORD,
-            }),
+            fullUrl,
+            {}, // 🔹 If the API requires a body, add it here
             {
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
+                    "x-api-key": API_KEY,
+                    "Content-Type": "application/json",
+                    "local-name" : "kuwaitiah",
                 },
             }
         );
 
-        console.log("✅ JWT Token received:", response.data.access_token);
-
+        console.log("✅ API Response:", response.data);
         return NextResponse.json(response.data);
     } catch (error: any) {
-        console.error("❌ Authentication Failed:", error.response?.data || error.message);
-        return NextResponse.json({ error: "Authentication failed" }, { status: 500 });
+        console.error("❌ API Request Failed:", error?.response?.data || error?.message);
+        return NextResponse.json({ error: "API request failed", details: error?.message }, { status: 500 });
     }
 }
+
+const API_KEY = process.env.API_KEY || "";
+const BASE_URL = process.env.BASE_URL || "";
+const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET || "";
+const USERNAME = process.env.NEXT_PUBLIC_USERNAME || "";
+const PASSWORD = process.env.NEXT_PUBLIC_PASSWORD || "";
+
+// export async function POST() {
+//     try {
+//         console.log("🔍 Requesting JWT Token...");
+
+//         const response = await axios.post(
+//             AUTH_URL,
+//             new URLSearchParams({
+//                 grant_type: "password",
+//                 client_id: CLIENT_ID,
+//                 client_secret: CLIENT_SECRET,
+//                 username: USERNAME,
+//                 password: PASSWORD,
+//             }),
+//             {
+//                 headers: {
+//                     "Content-Type": "application/x-www-form-urlencoded",
+//                 },
+//             }
+//         );
+
+//         console.log("✅ JWT Token received:", response.data.access_token);
+
+//         return NextResponse.json(response.data);
+//     } catch (error: any) {
+//         console.error("❌ Authentication Failed:", error.response?.data || error.message);
+//         return NextResponse.json({ error: "Authentication failed" }, { status: 500 });
+//     }
+// }

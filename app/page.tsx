@@ -23,88 +23,138 @@ import { DatePicker } from "../shared/components/date_picker";
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { Button } from "@/shared/components/ui/button";
+import { toast } from "sonner"
 import axios from "axios";
 import { authenticate } from "@/app/api/auth";
+
+interface Route {
+  origin: {
+    code: string;
+    name: string;
+    cityName: string;
+    country: string;
+  };
+  destinations: {
+    code: string;
+    name: string;
+    cityName: string;
+    country: string;
+  }[];
+}
 
 export default function Home() {
   const [departureDate, setDepartureDate] = React.useState<Date | undefined>();
   const [arrivalDate, setArrivalDate] = React.useState<Date | undefined>();
   const [departureStation, setDepartureStation] = React.useState<string>("");
   const [arrivalStation, setArrivalStation] = React.useState<string>("");
-  const [flightRBD, setFlightRBD] = React.useState<string>("");
+  const [flightRBD, setFlightRBD] = React.useState<string>("Y");
   const [adtCount, setAdtCount] = React.useState<number>(0);
   const [chdCount, setChdCount] = React.useState<number>(0);
   const [infCount, setInfCount] = React.useState<number>(0);
 
-  const API_PROTECTED_ENDPOINT = "https://test-api.worldticket.net/sms-gateway/schedule/routes?sales_channel=OTA"; // Replace with actual protected endpoint
-
   const [token, setToken] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [data, setData] = useState<any[]>([]);
+  const [routes, setRoutes] = useState<Route[] | null>(null);
 
-  const [data, setData] = useState<any>(null);
+  const AGENT_ID = process.env.AGENT_ID || "";
 
-  // useEffect(() => {
-  //   const login = async () => {
-  //     try {
-  //       const response = await fetch("/api/auth", {
-  //         method: "POST",
-  //       });
-
-  //       const data = await response.json();
-
-  //       if (response.ok && data.access_token) {
-  //         setToken(data.access_token);
-  //         setError(null);
-  //       } else {
-  //         setError(data.error || "Authentication failed");
-  //       }
-  //     } catch (error) {
-  //       setError("Network error");
-  //       console.error("Error calling auth API:", error);
-  //     }
-  //   };
-
-  //   login();
-  // }, []);
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await fetch("/api/auth", { method: "POST" });  // ✅ Correct API path
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
-
-  //     const result = await response.json();
-  //     setData(result);
-  //     setError(null);
-  //   } catch (error: any) {
-  //     setError(error.message);
-  //     console.error("Error fetching API:", error);
-  //   }
-  // };
-
-  const login = async () => {
+  const searchLowFare = async () => {
     try {
-      const response = await fetch("/api/auth", {
+      const requestBody = {
+        version: "2.001",
+        pos: {
+          source: [
+            {
+              isoCurrency: "SAR",
+              requestorID: {
+                type: "5",
+                id: "kuwaitiah", // ✅ Ensure this is a string
+                name: "kuwaitiah", // ✅ Ensure this is a string
+              },
+              bookingChannel: {
+                type: "OTA",
+              },
+            },
+          ],
+        },
+        processingInfo: {
+          displayOrder: "BY_PRICE_LOW_TO_HIGH",
+          availabilityIndicator: true,
+        },
+        originDestinationInformation: [
+          {
+            originLocation: { locationCode: departureStation },
+            destinationLocation: { locationCode: arrivalStation },
+            departureDateTime: {
+              value: departureDate ? format(departureDate, "yyyy-MM-dd") : "",
+              windowBefore: "P0D",
+              windowAfter: "P0D",
+            },
+          },
+        ],
+        travelerInfoSummary: {
+          airTravelerAvail: [
+            {
+              passengerTypeQuantity: [
+                {
+                  code: "ADT",
+                  quantity: adtCount,
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      console.log("🔍 Request Payload:", requestBody);
+
+      const response = await fetch("/api/trains", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
       });
 
-      const data = await response.json();
+      const result = await response.json();
 
-      if (response.ok && data.access_token) {
-        setToken(data.access_token);
-        sessionStorage.setItem("jwt_token", data.access_token); // Store JWT for future use
-        setError(null);
-      } else {
-        setError(data.error || "Authentication failed");
+      if (!response.ok) {
+        throw new Error(result.error || "Search failed");
       }
-    } catch (error) {
-      setError("Network error");
-      console.error("Error calling auth API:", error);
+      console.log("✅ Train Search Results:", result);
+      if (
+        result?.pricedItineraries &&
+        Array.isArray(result.pricedItineraries.pricedItinerary)
+      ) {
+        setData(result.pricedItineraries.pricedItinerary);
+      } else {
+        setData([]); // Ensure we don't set a string
+      }
+      setError(null);
+    } catch (error: any) {
+      setError(error.message);
+      console.error("❌ Error searching low fare:", error);
     }
   };
 
+
+  const fetchRoutes = async () => {
+    try {
+      const response = await fetch("/api/routes", { method: "GET" });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      setRoutes(result);
+      setError(null);
+    } catch (error: any) {
+      setError(error.message);
+      console.error("Error fetching routes:", error);
+    }
+  };
 
   const DepartureDate = (date: Date | undefined) => {
     setDepartureDate(date);
@@ -162,7 +212,6 @@ export default function Home() {
     // Here you can send the arrival station through an API request
   };
 
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Here you can send the booking data through an API request
@@ -170,13 +219,6 @@ export default function Home() {
 
   return (
     <div className="grid items-center justify-items-center min-h-screen font-[family-name:va(--font-geist-sans)">
-      {error && <p style={{ color: "red" }}>Error: {error}</p>}
-      <div>
-      <h1>Next.js JWT Authentication</h1>
-      <button onClick={login}>Authenticate</button>
-      <p>Token: {token ? "Authenticated ✅" : "Not Authenticated ❌"}</p>
-      {error && <p style={{ color: "red" }}>Error: {error}</p>}
-    </div>
       <main className="flex flex-col-reverse row-start-2 items-center">
         <div className="flex gap-20 flex-auto items-center">
           <Card>
@@ -200,7 +242,7 @@ export default function Home() {
                       <SelectContent>
                         <SelectItem value="JED">KAIA</SelectItem>
                         <SelectItem value="XJD">Al-Sulimaniyah</SelectItem>
-                        <SelectItem value="XMK">Makkah</SelectItem>
+                        <SelectItem value="MKX">Makkah</SelectItem>
                         <SelectItem value="DMX">Madinah</SelectItem>
                       </SelectContent>
                     </Select>
@@ -215,7 +257,7 @@ export default function Home() {
                       <SelectContent>
                         <SelectItem value="JED">KAIA</SelectItem>
                         <SelectItem value="XJD">Al-Sulimaniyah</SelectItem>
-                        <SelectItem value="XMK">Makkah</SelectItem>
+                        <SelectItem value="MKX">Makkah</SelectItem>
                         <SelectItem value="DMX">Madinah</SelectItem>
                       </SelectContent>
                     </Select>
@@ -265,11 +307,49 @@ export default function Home() {
               </CardContent>
               <CardFooter className="flex justify-between">
                 <Button variant="outline">Cancel</Button>
-                <Button type="submit">Search</Button>
+                <Button type="button" onClick={searchLowFare}>Search</Button>
               </CardFooter>
             </form>
+            {error && <p style={{ color: "red" }}>Error: {error}</p>}
           </Card>
         </div>
+        {data && data.length > 0 ? (
+          <div>
+            <h2>Available Train Routes</h2>
+            <ul>
+              {data.map((itinerary: any, index: number) => (
+                <li key={index} className="p-4 border rounded-lg mb-2">
+                  <h3>Train Itinerary {index + 1}</h3>
+                  <ul>
+                    {itinerary?.airItinerary?.originDestinationOptions?.originDestinationOption?.map(
+                      (option: any, optIndex: number) => (
+                        <li key={optIndex} className="p-2 border-b">
+                          <strong>Departure:</strong>{" "}
+                          {option?.flightSegment?.[0]?.departureAirport?.locationCode}
+                          at {option?.flightSegment?.[0]?.departureDateTime
+                            ? new Date(option.flightSegment[0].departureDateTime).toLocaleString()
+                            : "N/A"}
+                          <br />
+                          <strong>Arrival:</strong>{" "}
+                          {option?.flightSegment?.[0]?.arrivalAirport?.locationCode}
+                          at {option?.flightSegment?.[0]?.arrivalDateTime
+                            ? new Date(option.flightSegment[0].arrivalDateTime).toLocaleString()
+                            : "N/A"}
+                          <br />
+                          <strong>Train Number:</strong> {option?.flightSegment?.[0]?.flightNumber || "Unknown"}
+                          <br />
+                          <strong>Cabin Type:</strong> {option?.flightSegment?.[0]?.bookingClassAvails?.[0]?.cabinType || "N/A"}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <p>No trains found</p>
+        )}
         <Separator />
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
