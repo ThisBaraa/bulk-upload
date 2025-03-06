@@ -48,8 +48,11 @@ export default function Home() {
   const [arrivalDate, setArrivalDate] = React.useState<Date | undefined>();
   const [departureStation, setDepartureStation] = React.useState<string>("");
   const [arrivalStation, setArrivalStation] = React.useState<string>("");
+  const [departureTime, setDepartureTime] = React.useState<string>("");
+  const [arrivalTime, setArrivalTime] = React.useState<string>("");
+
   const [flightRBD, setFlightRBD] = React.useState<string>("Y");
-  const [adtCount, setAdtCount] = React.useState<number>(0);
+  const [adtCount, setAdtCount] = React.useState<number>(5);
   const [chdCount, setChdCount] = React.useState<number>(0);
   const [infCount, setInfCount] = React.useState<number>(0);
 
@@ -87,6 +90,15 @@ export default function Home() {
           availabilityIndicator: true,
         },
         originDestinationInformation: [
+          {
+            originLocation: { locationCode: departureStation },
+            destinationLocation: { locationCode: arrivalStation },
+            departureDateTime: {
+              value: departureDate ? format(departureDate, "yyyy-MM-dd") : "",
+              windowBefore: "P0D",
+              windowAfter: "P0D",
+            },
+          },
           {
             originLocation: { locationCode: departureStation },
             destinationLocation: { locationCode: arrivalStation },
@@ -246,40 +258,52 @@ export default function Home() {
             </CardHeader>
             <form>
               <CardContent>
-                <div className="grid w-full items-center gap-4">
-                  <Label className="" htmlFor="departure">
-                    Departure
-                  </Label>
-                  <div className="flex flex-auto gap-4">
-                    <Select onValueChange={handleDepartureStationChange}>
-                      <SelectTrigger className="w-[100%]">
-                        <SelectValue placeholder="Departure Station" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="JED">KAIA</SelectItem>
-                        <SelectItem value="XJD">Al-Sulimaniyah</SelectItem>
-                        <SelectItem value="MKX">Makkah</SelectItem>
-                        <SelectItem value="DMX">Madinah</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <DatePicker onDateChange={DepartureDate} />
+                <div className="grid items-center gap-4">
+                  <div className="grid grid-cols-2 items-center gap-8">
+                    <div className="flex items-center gap-4">
+                      <Label htmlFor="departure" className="whitespace-nowrap">Departure</Label>
+                      <Select onValueChange={handleDepartureStationChange}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Departure Station" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="JED">KAIA</SelectItem>
+                          <SelectItem value="JXD">Al-Sulimaniyah</SelectItem>
+                          <SelectItem value="MKX">Makkah</SelectItem>
+                          <SelectItem value="DMX">Madinah</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <Label htmlFor="arrival" className="whitespace-nowrap">Arrival</Label>
+                      <Select onValueChange={handleArrivalStationChange}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Arrival Station" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="JED">KAIA</SelectItem>
+                          <SelectItem value="JXD">Al-Sulimaniyah</SelectItem>
+                          <SelectItem value="MKX">Makkah</SelectItem>
+                          <SelectItem value="DMX">Madinah</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
-                  <Label htmlFor="arrival">Arrival</Label>
-                  <div className="flex flex-auto gap-4">
-                    <Select onValueChange={handleArrivalStationChange}>
-                      <SelectTrigger className="w-[100%]">
-                        <SelectValue placeholder="Arrival Station" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="JED">KAIA</SelectItem>
-                        <SelectItem value="JXD">Al-Sulimaniyah</SelectItem>
-                        <SelectItem value="MKX">Makkah</SelectItem>
-                        <SelectItem value="DMX">Madinah</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <DatePicker onDateChange={ArrivalDate} />
+                  <div className="grid grid-cols-2 items-center gap-4">
+                    <div className="flex items-center gap-4">
+                      <Label htmlFor="departureDate" className="whitespace-nowrap">Departure Date</Label>
+                      <div className="flex-1">
+                        <DatePicker onDateChange={DepartureDate} />
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <Label htmlFor="returnDate" className="whitespace-nowrap">Return Date</Label>
+                      <div className="flex-1">
+                        <DatePicker onDateChange={ArrivalDate} />
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex flex-auto gap-4">
+                  {/* <div className="flex flex-auto gap-4">
                     <div className="flex flex-col gap-4">
                       <Label>Adult: </Label>
                       <Input
@@ -304,7 +328,7 @@ export default function Home() {
                         onChange={(e) => handleInfCountChange(e.target.value)}
                       />
                     </div>
-                  </div>
+                  </div> */}
                   {/* <div className="flex flex-auto gap-4">
                     <div className="flex flex-col gap-4">
                       <Label>Ticket Segment - RBD: </Label>
@@ -346,7 +370,9 @@ export default function Home() {
                   itinerary?.airItinerary?.originDestinationOptions
                     ?.originDestinationOption?.[0];
                 const segment = option?.flightSegment?.[0];
-                const remainingSeats = itinerary?.airItineraryPricingInfo?.itinTotalFare?.totalFare?.remainingSeats;
+                const remainingSeats =
+                  itinerary?.airItineraryPricingInfo?.itinTotalFare?.totalFare
+                    ?.remainingSeats;
                 const price =
                   itinerary?.airItineraryPricingInfo?.itinTotalFare?.totalFare
                     ?.amount || "N/A";
@@ -376,8 +402,6 @@ export default function Home() {
 
                 // Calculate duration (if available)
                 const duration = "35 minutes"; // This would be calculated from actual data
-
-                
 
                 // Get cabin type
                 const cabinType =
@@ -412,16 +436,16 @@ export default function Home() {
                             </svg>
                           </div>
                           <div>
-                            <h3 className="font-bold text-lg">Train #{trainNumber}</h3>
+                            <h3 className="font-bold text-lg">
+                              Train #{trainNumber}
+                            </h3>
                             <p className="text-sm text-muted-foreground">
                               #{trainNumber}
                             </p>
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="font-bold text-lg">
-                            {price} 
-                          </p>
+                          <p className="font-bold text-lg">{price}</p>
                           <p className="text-sm text-muted-foreground">
                             Total Price
                           </p>
