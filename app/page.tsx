@@ -99,15 +99,6 @@ export default function Home() {
               windowAfter: "P0D",
             },
           },
-          {
-            originLocation: { locationCode: departureStation },
-            destinationLocation: { locationCode: arrivalStation },
-            departureDateTime: {
-              value: departureDate ? format(departureDate, "yyyy-MM-dd") : "",
-              windowBefore: "P0D",
-              windowAfter: "P0D",
-            },
-          },
         ],
         specificFlightInfo: {
           bookingClassPref: [
@@ -246,22 +237,24 @@ export default function Home() {
   };
 
   return (
-    <div className="grid items-center justify-items-center min-h-screen font-[family-name:va(--font-geist-sans)">
-      <main className="flex flex-col row-start-2 items-center gap-20">
-        <div className="flex gap-20 flex-auto items-center">
-          <Card>
+    <div className="grid items-center justify-items-center min-h-screen font-[family-name:va(--font-geist-sans)] p-4">
+      <main className="flex flex-col row-start-2 items-center gap-8 w-full max-w-4xl">
+        <div className="flex flex-col w-full">
+          <Card className="w-full">
             <CardHeader>
-              <CardTitle>Create a new group booking</CardTitle>
+              <CardTitle>Search for Available Trains</CardTitle>
               <CardDescription>
-                By searching and fetching the available trains.
+                By filling the form below, you can search for available trains.
               </CardDescription>
             </CardHeader>
             <form>
               <CardContent>
-                <div className="grid items-center gap-4">
-                  <div className="grid grid-cols-2 items-center gap-8">
-                    <div className="flex items-center gap-4">
-                      <Label htmlFor="departure" className="whitespace-nowrap">Departure</Label>
+                <div className="grid items-center gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 items-start gap-4 md:gap-8">
+                    <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row md:items-center md:gap-4">
+                      <Label htmlFor="departure" className="whitespace-nowrap">
+                        Departure
+                      </Label>
                       <Select onValueChange={handleDepartureStationChange}>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Departure Station" />
@@ -274,8 +267,10 @@ export default function Home() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <Label htmlFor="arrival" className="whitespace-nowrap">Arrival</Label>
+                    <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row md:items-center md:gap-4">
+                      <Label htmlFor="arrival" className="whitespace-nowrap">
+                        Arrival
+                      </Label>
                       <Select onValueChange={handleArrivalStationChange}>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Arrival Station" />
@@ -288,72 +283,31 @@ export default function Home() {
                         </SelectContent>
                       </Select>
                     </div>
-                  </div>
-                  <div className="grid grid-cols-2 items-center gap-4">
-                    <div className="flex items-center gap-4">
-                      <Label htmlFor="departureDate" className="whitespace-nowrap">Departure Date</Label>
-                      <div className="flex-1">
-                        <DatePicker onDateChange={DepartureDate} />
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <Label htmlFor="returnDate" className="whitespace-nowrap">Return Date</Label>
-                      <div className="flex-1">
-                        <DatePicker onDateChange={ArrivalDate} />
-                      </div>
+                    <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row md:items-center md:gap-4">
+                      <Label
+                        htmlFor="departureDate"
+                        className="whitespace-nowrap">
+                        Train Date
+                      </Label>
+                      <DatePicker onDateChange={DepartureDate} />
                     </div>
                   </div>
-                  {/* <div className="flex flex-auto gap-4">
-                    <div className="flex flex-col gap-4">
-                      <Label>Adult: </Label>
-                      <Input
-                        type="number"
-                        placeholder="Adult total"
-                        onChange={(e) => handleAdtCountChange(e.target.value)}
-                      />
-                    </div>
-                    <div className="flex flex-col gap-4">
-                      <Label>Child: </Label>
-                      <Input
-                        type="number"
-                        placeholder="Child total"
-                        onChange={(e) => handleChdCountChange(e.target.value)}
-                      />
-                    </div>
-                    <div className="flex flex-col gap-4">
-                      <Label>Infant: </Label>
-                      <Input
-                        type="number"
-                        placeholder="Infant total"
-                        onChange={(e) => handleInfCountChange(e.target.value)}
-                      />
-                    </div>
-                  </div> */}
-                  {/* <div className="flex flex-auto gap-4">
-                    <div className="flex flex-col gap-4">
-                      <Label>Ticket Segment - RBD: </Label>
-                      <Select onValueChange={handleRBDChange}>
-                        <SelectTrigger className="w-[100%]">
-                          <SelectValue placeholder="RBD" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Y">Economy</SelectItem>
-                          <SelectItem value="C">Business</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div> */}
                 </div>
               </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button variant="outline">Cancel</Button>
+              <CardFooter className="flex flex-col sm:flex-row justify-between gap-4">
+                <Button variant="outline" className="w-full sm:w-auto">
+                  Cancel
+                </Button>
                 {isSearching ? (
-                  <Button disabled>
-                    <Loader2 className="animate-spin" />
+                  <Button disabled className="w-full sm:w-auto">
+                    <Loader2 className="animate-spin mr-2" />
                     Please wait
                   </Button>
                 ) : (
-                  <Button type="button" onClick={searchLowFare}>
+                  <Button
+                    type="button"
+                    onClick={searchLowFare}
+                    className="w-full sm:w-auto">
                     Search
                   </Button>
                 )}
@@ -362,23 +316,47 @@ export default function Home() {
           </Card>
         </div>
         {data && data.length > 0 ? (
-          <div className="w-full max-w-4xl">
-            <h2 className="text-2xl font-bold mb-4">Available Train Routes</h2>
+          <div className="w-full">
+            <h2 className="text-2xl font-bold mb-4">
+              We've found {Math.ceil(data.length / 2)} trains
+            </h2>
             <div className="space-y-4">
-              {data.map((itinerary: any, index: number) => {
+              {data.reduce((acc: any[], itinerary: any, index: number) => {
+                // acc.push(
+                //   <p className="text-center text-muted-foreground">
+                //     No trains found. <br />
+                //     <span className="mt-10 text-primary">
+                //       Search for trains or there might be no any available
+                //       trains in this period
+                //     </span>
+                //   </p>
+                // );
+                if (index % 2 !== 0) return acc;
+
+                const economyItinerary = data[index];
+                const businessItinerary = data[index + 1];
+
+                const segment =
+                  economyItinerary?.airItinerary?.originDestinationOptions
+                    ?.originDestinationOption?.[0]?.flightSegment?.[0];
+
+                // Get economy seats
+                const economySeats =
+                  economyItinerary?.airItinerary?.originDestinationOptions
+                    ?.originDestinationOption?.[0]?.flightSegment?.[0]
+                    ?.bookingClassAvails?.[1]?.bookingClassAvail?.[0]
+                    ?.resBookDesigQuantity || 0;
+
+                // Get business seats
+                const businessSeats =
+                  businessItinerary?.airItinerary?.originDestinationOptions
+                    ?.originDestinationOption?.[0]?.flightSegment?.[0]
+                    ?.bookingClassAvails?.[0]?.bookingClassAvail?.[0]
+                    ?.resBookDesigQuantity || 0;
+
                 const option =
                   itinerary?.airItinerary?.originDestinationOptions
                     ?.originDestinationOption?.[0];
-                const segment = option?.flightSegment?.[0];
-                const remainingSeats =
-                  itinerary?.airItineraryPricingInfo?.itinTotalFare?.totalFare
-                    ?.remainingSeats;
-                const price =
-                  itinerary?.airItineraryPricingInfo?.itinTotalFare?.totalFare
-                    ?.amount || "N/A";
-                const currency =
-                  itinerary?.airItineraryPricingInfo?.itinTotalFare?.totalFare
-                    ?.currencyCode || "SAR";
 
                 // Format dates
                 const departureTime = segment?.departureDateTime
@@ -400,17 +378,29 @@ export default function Home() {
                     )
                   : "";
 
+                const arrivalDate = segment?.arrivalDateTime
+                  ? new Date(segment.arrivalDateTime).toLocaleDateString(
+                      "en-US",
+                      { month: "long", day: "numeric" }
+                    )
+                  : "";
+
                 // Calculate duration (if available)
                 const duration = "35 minutes"; // This would be calculated from actual data
 
+                const flightDuration =
+                  segment?.arrivalDateTime - segment?.departureDateTime ||
+                  "N/A";
+
                 // Get cabin type
                 const cabinType =
-                  segment?.bookingClassAvails?.[0]?.cabinType === "Y"
+                  segment?.resBookDesigCode === "Y"
                     ? "Economy Class"
                     : "Business Class";
+
                 const trainNumber = segment?.flightNumber || "N/A";
 
-                return (
+                acc.push(
                   <Card key={index} className="overflow-hidden">
                     <div className="p-4 md:p-6">
                       <div className="flex justify-between items-center mb-4">
@@ -440,23 +430,26 @@ export default function Home() {
                               Train #{trainNumber}
                             </h3>
                             <p className="text-sm text-muted-foreground">
-                              #{trainNumber}
+                              Train Number
                             </p>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <p className="font-bold text-lg">{price}</p>
-                          <p className="text-sm text-muted-foreground">
-                            Total Price
-                          </p>
-                        </div>
+                        
                       </div>
 
                       <div className="flex items-center justify-between mb-6">
                         <div className="text-center">
                           <p className="font-bold text-xl">{departureTime}</p>
                           <p className="text-md">
-                            {segment?.departureAirport?.locationCode || "N/A"}
+                            {segment?.departureAirport?.locationCode
+                              ? new String(
+                                  segment?.departureAirport?.locationCode
+                                )
+                                  .replace("JED", "KAIA")
+                                  .replace("JXD", "Al-Sulimaniyah")
+                                  .replace("MKX", "Makkah")
+                                  .replace("DMX", "Madinah")
+                              : "N/A"}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             {departureDate}
@@ -465,57 +458,69 @@ export default function Home() {
 
                         <div className="flex-1 mx-4 relative">
                           <div className="border-t border-dashed border-gray-300 w-full absolute top-1/2 -translate-y-1/2"></div>
-                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-black  px-2 text-xs text-muted-foreground">
-                            {duration}
+                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-black px-2 text-xs text-muted-foreground">
+                            {flightDuration}
                           </div>
                           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary"></div>
                           <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary"></div>
                         </div>
 
                         <div className="text-center">
-                          <p className="font-bold text-xl">{arrivalTime}</p>
+                          <p className="font-bold text-xl">
+                            {arrivalTime
+                              ? `${arrivalTime} ${
+                                  new Date(segment?.arrivalDateTime).getDate() >
+                                  new Date(segment?.departureDateTime).getDate()
+                                    ? "(+1)"
+                                    : ""
+                                }`
+                              : "N/A"}
+                          </p>
                           <p className="text-md">
-                            {segment?.arrivalAirport?.locationCode || "N/A"}
+                            {segment?.arrivalAirport?.locationCode
+                              ? new String(
+                                  segment?.arrivalAirport?.locationCode
+                                )
+                                  .replace("JED", "KAIA")
+                                  .replace("JXD", "Al-Sulimaniyah")
+                                  .replace("MKX", "Makkah")
+                                  .replace("DMX", "Madinah")
+                              : "N/A"}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            {departureDate}
+                            {arrivalDate}
                           </p>
                         </div>
                       </div>
-
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between">
                         <div>
-                          <p className="text-sm font-medium">{cabinType}</p>
+                          <p className="text-sm font-medium">Business Class</p>
                           <p className="text-xs text-muted-foreground">
-                            32 seats remaining
+                            {businessSeats} seats remaining
                           </p>
                         </div>
-                        <div className="text-sm text-muted-foreground">
-                          #{itinerary?.airItinerary?.directionInd || "1221"}
-                        </div>
-                      </div>
-
-                      <div className="flex justify-between items-center gap-2">
                         <div>
-                          <p className="text-sm font-medium">{cabinType}</p>
+                          <p className="text-sm font-medium">Economy Class</p>
                           <p className="text-xs text-muted-foreground">
-                            32 seats remaining
+                            {economySeats} seats remaining
                           </p>
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          #{itinerary?.airItinerary?.directionInd || "1221"}
                         </div>
                       </div>
                     </div>
                   </Card>
                 );
-              })}
+
+                return acc;
+              }, [])}
             </div>
           </div>
         ) : (
-          <p>
-            No trains found. Search for trains or there might be no any
-            available trains in this period
+          <p className="text-center text-muted-foreground">
+            No trains found. <br />
+            <span className="mt-10 text-primary">
+              Search for trains or there might be no any available trains in
+              this period
+            </span>
           </p>
         )}
         <Separator />
