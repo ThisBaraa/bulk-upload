@@ -27,6 +27,7 @@ import { toast } from "sonner";
 import axios from "axios";
 import { authenticate } from "@/app/api/auth";
 import { Loader2 } from "lucide-react";
+import { Footer } from "@/shared/components/footer";
 
 interface Route {
   origin: {
@@ -237,8 +238,8 @@ export default function Home() {
   };
 
   return (
-    <div className="grid items-center justify-items-center min-h-screen font-[family-name:va(--font-geist-sans)] p-4">
-      <main className="flex flex-col row-start-2 items-center gap-8 w-full max-w-4xl">
+    <div className="grid items-center justify-items-center min-h-screen font-[family-name:va(--font-geist-sans)] p-10">
+      <main className="flex flex-col items-center gap-8 w-full max-w-4xl">
         <div className="flex flex-col w-full">
           <Card className="w-full">
             <CardHeader>
@@ -322,15 +323,6 @@ export default function Home() {
             </h2>
             <div className="space-y-4">
               {data.reduce((acc: any[], itinerary: any, index: number) => {
-                // acc.push(
-                //   <p className="text-center text-muted-foreground">
-                //     No trains found. <br />
-                //     <span className="mt-10 text-primary">
-                //       Search for trains or there might be no any available
-                //       trains in this period
-                //     </span>
-                //   </p>
-                // );
                 if (index % 2 !== 0) return acc;
 
                 const economyItinerary = data[index];
@@ -458,10 +450,10 @@ export default function Home() {
 
                         <div className="flex-1 mx-4 relative">
                           <div className="border-t border-dashed border-gray-300 w-full absolute top-1/2 -translate-y-1/2"></div>
-                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-black px-2 text-xs text-muted-foreground">
-                            {flightDuration}
+                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-black px-2 text-xs">
+                            {/* {flightDuration} */}
                           </div>
-                          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary"></div>
+                          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full outline outline-2 outline-primary bg-slate-900"></div>
                           <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary"></div>
                         </div>
 
@@ -494,22 +486,21 @@ export default function Home() {
                       </div>
                       <div className="flex justify-between">
                         <div>
-                          <p className="text-sm font-medium">Business Class</p>
+                          <p className="text-sm font-medium">{businessSeats} Seats</p>
                           <p className="text-xs text-muted-foreground">
-                            {businessSeats} seats remaining
+                          Business Class
                           </p>
                         </div>
                         <div>
-                          <p className="text-sm font-medium">Economy Class</p>
+                          <p className="text-sm font-medium">{economySeats} Seats</p>
                           <p className="text-xs text-muted-foreground">
-                            {economySeats} seats remaining
+                          Economy Class
                           </p>
                         </div>
                       </div>
                     </div>
                   </Card>
                 );
-
                 return acc;
               }, [])}
             </div>
@@ -523,54 +514,8 @@ export default function Home() {
             </span>
           </p>
         )}
-        <Separator />
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer">
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Changelog
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer">
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Knowledgebase
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer">
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Report a Bug →
-        </a>
-        <p></p>
-        <p>{process.env.VER}</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

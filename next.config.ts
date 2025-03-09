@@ -4,6 +4,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: false,
+  env: {
+    VER: process.env.VER || 'undefined',
+  },
+
 };
 
 export default withSentryConfig(nextConfig, {
