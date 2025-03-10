@@ -125,7 +125,7 @@ export default function Home() {
         },
       };
 
-      console.log("🔍 Request Payload:", requestBody);
+      // console.log("🔍 Request Payload:", requestBody);
 
       const response = await fetch("/api/trains", {
         method: "POST",
@@ -154,7 +154,7 @@ export default function Home() {
         throw new Error("Failed to parse response data");
       });
       
-      console.log("✅ Train Search Results:", result);
+      // console.log("✅ Train Search Results:", result);
       if (
         result?.pricedItineraries &&
         Array.isArray(result.pricedItineraries.pricedItinerary)
@@ -163,7 +163,7 @@ export default function Home() {
         if (result.pricedItineraries.pricedItinerary.length === 0) {
           toast.info("No trains found for the selected criteria.");
         } else {
-          toast.success(`Found ${result.pricedItineraries.pricedItinerary.length} trains!`);
+          toast.success(`Found ${Math.ceil(result.pricedItineraries.pricedItinerary.length/2)} trains!`);
         }
       } else {
         setData([]); // Ensure we don't set a string
@@ -174,27 +174,8 @@ export default function Home() {
     } catch (error: any) {
       // Don't show toast here as we've already shown specific toasts above
       setError(error.message);
-      console.error("❌ Error searching low fare:", error);
+      // console.error("❌ Error searching low fare:", error);
       setIsSearching(false);
-    }
-  };
-
-  const fetchRoutes = async () => {
-    try {
-      const response = await fetch("/api/routes", { method: "GET" });
-
-      if (!response.ok) {
-        toast.error(`Failed to fetch routes: HTTP error ${response.status}`);
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      setRoutes(result);
-      setError(null);
-    } catch (error: any) {
-      toast.error(`Error fetching routes: ${error.message}`);
-      setError(error.message);
-      console.error("Error fetching routes:", error);
     }
   };
 
