@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
-import { toast } from "sonner"
 
 const BASE_URL = process.env.BASE_URL || "";
 const API_KEY = process.env.API_KEY || "";
@@ -22,6 +21,7 @@ export async function POST(request: Request) {
 
         console.log("✅ Low Fare Search Response:", response.data);
         return NextResponse.json(response.data);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         console.error("❌ Low Fare Search Failed:", error.response?.data || error.message);
         return NextResponse.json(

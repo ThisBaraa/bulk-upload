@@ -152,7 +152,7 @@ export default function Home() {
       setError(null);
       setIsSearching(false);
     } catch (error: any) {
-      toast("Error: " + error);
+      toast(error);
       setError(error.message);
       console.error("❌ Error searching low fare:", error);
       setIsSearching(false);
