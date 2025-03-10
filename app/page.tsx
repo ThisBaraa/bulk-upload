@@ -133,26 +133,46 @@ export default function Home() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(requestBody),
+        signal: AbortSignal.timeout(60000), // 60 second client-side timeout
       });
 
-      const result = await response.json();
-
+      // Check for timeout or network errors first
       if (!response.ok) {
-        throw new Error(result.error || "Search failed");
+        if (response.status === 504) {
+          toast.error("The request timed out. The train service is taking too long to respond. Please try again later.");
+          throw new Error("The request timed out. The train service is taking too long to respond. Please try again later.");
+        }
+        const result = await response.json().catch(() => ({ 
+          error: "Failed to parse response from server" 
+        }));
+        toast.error(result.error || `Search failed with status: ${response.status}`);
+        throw new Error(result.error || `Search failed with status: ${response.status}`);
       }
+
+      const result = await response.json().catch(() => {
+        toast.error("Failed to parse response data");
+        throw new Error("Failed to parse response data");
+      });
+      
       console.log("✅ Train Search Results:", result);
       if (
         result?.pricedItineraries &&
         Array.isArray(result.pricedItineraries.pricedItinerary)
       ) {
         setData(result.pricedItineraries.pricedItinerary);
+        if (result.pricedItineraries.pricedItinerary.length === 0) {
+          toast.info("No trains found for the selected criteria.");
+        } else {
+          toast.success(`Found ${result.pricedItineraries.pricedItinerary.length} trains!`);
+        }
       } else {
         setData([]); // Ensure we don't set a string
+        toast.info("No trains found for the selected criteria.");
       }
       setError(null);
       setIsSearching(false);
     } catch (error: any) {
-      toast(error);
+      // Don't show toast here as we've already shown specific toasts above
       setError(error.message);
       console.error("❌ Error searching low fare:", error);
       setIsSearching(false);
@@ -164,6 +184,7 @@ export default function Home() {
       const response = await fetch("/api/routes", { method: "GET" });
 
       if (!response.ok) {
+        toast.error(`Failed to fetch routes: HTTP error ${response.status}`);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
@@ -171,6 +192,7 @@ export default function Home() {
       setRoutes(result);
       setError(null);
     } catch (error: any) {
+      toast.error(`Error fetching routes: ${error.message}`);
       setError(error.message);
       console.error("Error fetching routes:", error);
     }
