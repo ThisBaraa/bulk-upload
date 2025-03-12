@@ -63,7 +63,7 @@ export function Footer() {
                         {/* <span className="text-muted-foreground">© 2025 SAR Insider. All rights reserved.</span> */}
                         {version && (
                             <span className="rounded bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">
-                                v{version}
+                                {version}
                             </span>
                         )}
                     </div>
