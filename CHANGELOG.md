@@ -2,6 +2,22 @@
 
 All notable changes to the Train Booking System - Bulk Upload project will be documented in this file.
 
+## [1.1.0] - 2024-09-22
+
+### Added
+- New dashboard layout with left sidebar navigation
+- Company logo integrated in the sidebar header
+- Created dedicated pages for different functionality sections
+- Implemented a version indicator that displays in the bottom right corner
+- Added placeholder pages for Templates, Bookings, and Settings
+- Responsive card-based dashboard UI for quick access to key features
+
+### Changed
+- Moved train search functionality to a dedicated "/search" page
+- Improved overall navigation structure with intuitive sidebar
+- Enhanced user experience with consistent layout across all pages
+- Restructured the application to follow a modular dashboard approach
+
 ## [1.0.0] - 2024-03-10
 
 ### Added
