@@ -94,10 +94,10 @@ export function DashboardLayout({ children, currentPath = "/", versionNumber }: 
                 <div className="p-4 border-t">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                            <span className="text-xs font-medium">AB</span>
+                            <span className="text-xs font-medium text-black">AB</span>
                         </div>
                         <div>
-                            <p className="text-sm font-medium">Abo Bukhari</p>
+                            <p className="text-sm font-medium">Albaraa Bukhari</p>
                             <p className="text-xs text-muted-foreground">Admin</p>
                         </div>
                     </div>

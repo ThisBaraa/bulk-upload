@@ -1,6 +1,6 @@
 {
   "name": "bulk-upload",
-  "version": "0.10.1",
+  "version": "v0.10.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
