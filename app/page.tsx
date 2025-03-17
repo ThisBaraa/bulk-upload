@@ -58,7 +58,7 @@ export default function Home() {
   ];
 
   return (
-    <DashboardLayout currentPath="/" versionNumber={version}>
+    <DashboardLayout currentPath="/" buildNumber={version}>
       <div className="space-y-10">
         <div>
           <h1 className="text-3xl font-bold">Hello Albaraa!</h1>

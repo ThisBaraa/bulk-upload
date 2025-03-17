@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,6 +9,7 @@ import {
     LayoutTemplate,
     LucideIcon
 } from "lucide-react";
+import { Footer } from "./footer";
 
 interface SidebarItemProps {
     icon: LucideIcon;
@@ -37,10 +39,10 @@ const SidebarItem = ({ icon: Icon, label, href, active }: SidebarItemProps) => {
 interface DashboardLayoutProps {
     children: React.ReactNode;
     currentPath?: string;
-    versionNumber?: string | null;
+    buildNumber?: string | null;
 }
 
-export function DashboardLayout({ children, currentPath = "/", versionNumber }: DashboardLayoutProps) {
+export function DashboardLayout({ children, currentPath = "/", buildNumber }: DashboardLayoutProps) {
     const sidebarItems = [
         {
             icon: LayoutDashboard,
@@ -105,18 +107,21 @@ export function DashboardLayout({ children, currentPath = "/", versionNumber }: 
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 overflow-y-auto p-6 pb-10">
-                {children}
-            </main>
+            <div className="flex-1 overflow-y-auto flex flex-col min-h-screen">
+                <main className="flex-1 p-6 pb-6">
+                    {children}
+                </main>
+                <Footer />
+            </div>
             
             {/* Version indicator (fixed at bottom right) */}
-            {versionNumber && (
+            {/* {buildNumber && (
                 <div className="absolute bottom-2 right-4">
                     <span className="rounded bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">
-                        {versionNumber}
+                        {buildNumber}
                     </span>
                 </div>
-            )}
+            )} */}
         </div>
         </>
     );
