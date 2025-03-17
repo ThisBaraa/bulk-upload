@@ -13,56 +13,43 @@ export function Footer() {
     }, []);
 
     return (
-        <footer className="w-full dark:bg-slate-900/20 border-t border-border/40 mt-auto backdrop-blur-sm">
-            <div className="mx-auto px-8 py-6">
-                <div className="flex flex-col md:flex-row justify-between items-center">
-                    <div className="flex items-center mb-4 md:mb-0">
-                        <p className="text-sm text-muted-foreground">
-                            © {currentYear} Saudi Arabia Railway. All rights reserved.
+        <footer className="w-full dark:bg-slate-900/20 border-t border-border/40 bg-background py-3 md:py-4 sticky bottom-0 z-10">
+            <div className="mx-auto px-3 md:px-8">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-2">
+                    <div className="flex items-center">
+                        <p className="text-xs md:text-sm text-muted-foreground text-center md:text-left">
+                            © {currentYear} Saudi Arabia Railway
                         </p>
                     </div>
-                    <div className="flex flex-wrap justify-center items-center gap-6 text-sm">
+                    <div className="flex flex-wrap justify-center items-center gap-3 md:gap-6 text-xs md:text-sm">
                         <Link
-                            className="flex items-center gap-2 transition-all duration-200 text-muted-foreground hover:text-foreground hover:scale-105"
+                            className="flex items-center gap-1 md:gap-2 transition-all duration-200 text-muted-foreground hover:text-foreground"
                             href="/changelog">
                             <Image
                                 aria-hidden
                                 src="/file.svg"
                                 alt="File icon"
-                                width={16}
-                                height={16}
+                                width={14}
+                                height={14}
                                 className="opacity-70"
                             />
-                            Changelog
+                            <span className="md:inline">Changelog</span>
                         </Link>
                         <Link
-                            className="flex items-center gap-2 transition-all duration-200 text-muted-foreground hover:text-foreground hover:scale-105"
+                            className="flex items-center gap-1 md:gap-2 transition-all duration-200 text-muted-foreground hover:text-foreground"
                             href="/help">
                             <Image
                                 aria-hidden
                                 src="/window.svg"
                                 alt="Window icon"
-                                width={16}
-                                height={16}
+                                width={14}
+                                height={14}
                                 className="opacity-70"
                             />
-                            Help Center
-                        </Link>
-                        <Link
-                            className="flex items-center gap-2 transition-all duration-200 text-muted-foreground hover:text-foreground hover:scale-105"
-                            href="/report">
-                            <Image
-                                aria-hidden
-                                src="/globe.svg"
-                                alt="Globe icon"
-                                width={16}
-                                height={16}
-                                className="opacity-70"
-                            />
-                            Report a Bug
+                            <span className="md:inline">Help</span>
                         </Link>
                         {version && (
-                            <span className="rounded-full bg-secondary/80 px-3 py-1 text-xs font-medium text-secondary-foreground ml-2 shadow-sm">
+                            <span className="rounded-full bg-secondary/80 px-2 py-0.5 text-[10px] md:text-xs font-medium text-secondary-foreground ml-1 md:ml-2 shadow-sm">
                                 {version}
                             </span>
                         )}
