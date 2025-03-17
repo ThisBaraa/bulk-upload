@@ -12,7 +12,7 @@ export default function TemplatesPage() {
   }, []);
 
   return (
-    <DashboardLayout currentPath="/templates" versionNumber={version}>
+    <DashboardLayout currentPath="/templates">
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Templates</h1>
