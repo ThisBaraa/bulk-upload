@@ -2,7 +2,7 @@
 
 All notable changes to the Train Booking System - Bulk Upload project will be documented in this file.
 
-## [1.3.0] - 2024-09-23
+## [1.3.0] - 2025-03-17
 
 ### Added
 - Fully responsive mobile design with hamburger menu and slide-out navigation
@@ -23,7 +23,7 @@ All notable changes to the Train Booking System - Bulk Upload project will be do
 - Enhanced skeleton loaders for better mobile appearance
 - Optimized layout to prevent overflow issues on small screens
 
-## [1.2.0] - 2024-09-22
+## [1.2.0] - 2025-03-16
 
 ### Added
 - Enhanced train card display with improved visual design
