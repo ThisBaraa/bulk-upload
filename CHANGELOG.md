@@ -2,7 +2,28 @@
 
 All notable changes to the Train Booking System - Bulk Upload project will be documented in this file.
 
-## [1.2.0] - 2024-09-22
+## [0.12.0] - 2025-03-17
+
+### Added
+- Fully responsive mobile design with hamburger menu and slide-out navigation
+- Sticky footer that's always visible on mobile devices
+- Mobile-optimized card layouts with appropriate spacing
+- Conditional rendering for business class seats based on availability
+
+### Changed
+- Redesigned dashboard layout for better mobile compatibility
+- Improved form layout for better touch interaction on small screens
+- Enhanced train card UI to stack vertically on mobile devices
+- Adjusted spacing and typography for better mobile readability
+
+### Fixed
+- Fixed footer visibility issues on mobile devices
+- Corrected conditional rendering in train cards
+- Improved dark mode support for various UI elements
+- Enhanced skeleton loaders for better mobile appearance
+- Optimized layout to prevent overflow issues on small screens
+
+## [0.11.0] - 2025-03-16
 
 ### Added
 - Enhanced train card display with improved visual design
@@ -22,7 +43,7 @@ All notable changes to the Train Booking System - Bulk Upload project will be do
 - Added subtle animations and hover effects for interactive elements
 - Improved dark mode compatibility throughout the application
 
-## [1.1.0] - 2024-09-22
+## [0.10.0] - 2024-09-22
 
 ### Added
 - New dashboard layout with left sidebar navigation
@@ -38,7 +59,7 @@ All notable changes to the Train Booking System - Bulk Upload project will be do
 - Enhanced user experience with consistent layout across all pages
 - Restructured the application to follow a modular dashboard approach
 
-## [1.0.0] - 2025-03-10
+## [0.1.0] - 2025-03-10
 
 ### Added
 - Initial release of the Train Booking System

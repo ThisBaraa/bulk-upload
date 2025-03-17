@@ -28,7 +28,6 @@ import { format } from "date-fns";
 import { Button } from "@/shared/components/ui/button";
 import { toast } from "sonner";
 import axios from "axios";
-import { authenticate } from "@/app/api/auth";
 import { Loader2 } from "lucide-react";
 import { Footer } from "@/shared/components/footer";
 import { DashboardLayout } from "@/shared/components/dashboard-layout";
@@ -259,7 +258,7 @@ export default function TrainSearch() {
     };
 
     return (
-        <DashboardLayout currentPath="/search" versionNumber={version}>
+        <DashboardLayout currentPath="/search" buildNumber={version}>
             <div className="space-y-6">
                 <div>
                     <h1 className="text-3xl font-bold">Trains Availability</h1>
@@ -276,9 +275,9 @@ export default function TrainSearch() {
                     </CardHeader>
                     <form>
                         <CardContent>
-                            <div className="grid items-center gap-6">
-                                <div className="grid grid-cols-1 md:grid-cols-3 items-start gap-4 md:gap-8">
-                                    <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row md:items-center md:gap-4">
+                            <div className="grid items-center gap-4 md:gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-3 items-start gap-3 md:gap-8">
+                                    <div className="flex flex-col space-y-2">
                                         <Label htmlFor="departure" className="whitespace-nowrap">
                                             Departure
                                         </Label>
@@ -294,7 +293,7 @@ export default function TrainSearch() {
                                             </SelectContent>
                                         </Select>
                                     </div>
-                                    <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row md:items-center md:gap-4">
+                                    <div className="flex flex-col space-y-2">
                                         <Label htmlFor="arrival" className="whitespace-nowrap">
                                             Arrival
                                         </Label>
@@ -310,7 +309,7 @@ export default function TrainSearch() {
                                             </SelectContent>
                                         </Select>
                                     </div>
-                                    <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row md:items-center md:gap-4">
+                                    <div className="flex flex-col space-y-2">
                                         <Label
                                             htmlFor="departureDate"
                                             className="whitespace-nowrap">
@@ -349,9 +348,9 @@ export default function TrainSearch() {
                         <div className="space-y-4">
                             {[1, 2, 3].map((item) => (
                                 <Card key={item} className="overflow-hidden shadow-sm">
-                                    <div className="grid grid-cols-12 gap-0">
+                                    <div className="grid grid-cols-1 md:grid-cols-12 gap-0">
                                         {/* Left column skeleton */}
-                                        <div className="col-span-8 p-4 md:p-6 border-r">
+                                        <div className="col-span-1 md:col-span-8 p-4 md:p-6 md:border-r border-b md:border-b-0">
                                             <div className="flex justify-between items-center mb-4">
                                                 <div className="flex items-center">
                                                     <Skeleton className="w-10 h-10 rounded-full mr-3" />
@@ -364,38 +363,38 @@ export default function TrainSearch() {
 
                                             <div className="flex items-center justify-between mb-3">
                                                 <div className="text-center">
-                                                    <Skeleton className="w-[60px] h-[32px] mb-1 mx-auto" />
-                                                    <Skeleton className="w-[80px] h-[20px] mb-1 mx-auto" />
-                                                    <Skeleton className="w-[60px] h-[16px] mx-auto" />
+                                                    <Skeleton className="w-[50px] md:w-[60px] h-[28px] md:h-[32px] mb-1 mx-auto" />
+                                                    <Skeleton className="w-[60px] md:w-[80px] h-[18px] md:h-[20px] mb-1 mx-auto" />
+                                                    <Skeleton className="w-[40px] md:w-[60px] h-[12px] md:h-[16px] mx-auto" />
                                                 </div>
 
-                                                <div className="flex-1 mx-4 relative">
+                                                <div className="flex-1 mx-2 md:mx-4 relative">
                                                     <div className="border-t border-dashed border-gray-300 w-full absolute top-1/2 -translate-y-1/2"></div>
-                                                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full outline outline-2 outline-primary bg-background"></div>
-                                                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary"></div>
+                                                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 md:w-3 h-2 md:h-3 rounded-full outline outline-2 outline-primary bg-background"></div>
+                                                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 md:w-3 h-2 md:h-3 rounded-full bg-primary"></div>
                                                 </div>
 
                                                 <div className="text-center">
-                                                    <Skeleton className="w-[60px] h-[32px] mb-1 mx-auto" />
-                                                    <Skeleton className="w-[80px] h-[20px] mb-1 mx-auto" />
-                                                    <Skeleton className="w-[60px] h-[16px] mx-auto" />
+                                                    <Skeleton className="w-[50px] md:w-[60px] h-[28px] md:h-[32px] mb-1 mx-auto" />
+                                                    <Skeleton className="w-[60px] md:w-[80px] h-[18px] md:h-[20px] mb-1 mx-auto" />
+                                                    <Skeleton className="w-[40px] md:w-[60px] h-[12px] md:h-[16px] mx-auto" />
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         {/* Right column skeleton */}
-                                        <div className="col-span-4 dark:bg-slate-900/30 flex flex-col justify-center items-center p-4">
-                                            <Skeleton className="w-[120px] h-[24px] mb-4" />
-                                            
-                                            <div className="flex flex-col gap-4 w-full">
-                                                <div className="flex justify-between items-center dark:bg-slate-800 rounded-lg p-3 shadow-sm">
-                                                    <Skeleton className="w-[100px] h-[20px]" />
-                                                    <Skeleton className="w-[70px] h-[32px] rounded-full" />
+                                        <div className="col-span-1 md:col-span-4 dark:bg-slate-900/30 flex flex-col justify-center items-center p-4">
+                                            <Skeleton className="w-[100px] md:w-[120px] h-[20px] md:h-[24px] mb-4" />
+
+                                            <div className="flex flex-col gap-3 md:gap-4 w-full">
+                                                <div className="flex justify-between items-center dark:bg-slate-800 rounded-lg p-2 md:p-3 shadow-sm">
+                                                    <Skeleton className="w-[80px] md:w-[100px] h-[18px] md:h-[20px]" />
+                                                    <Skeleton className="w-[50px] md:w-[70px] h-[28px] md:h-[32px] rounded-full" />
                                                 </div>
-                                                
-                                                <div className="flex justify-between items-center dark:bg-slate-800 rounded-lg p-3 shadow-sm">
-                                                    <Skeleton className="w-[100px] h-[20px]" />
-                                                    <Skeleton className="w-[70px] h-[32px] rounded-full" />
+
+                                                <div className="flex justify-between items-center dark:bg-slate-800 rounded-lg p-2 md:p-3 shadow-sm">
+                                                    <Skeleton className="w-[80px] md:w-[100px] h-[18px] md:h-[20px]" />
+                                                    <Skeleton className="w-[50px] md:w-[70px] h-[28px] md:h-[32px] rounded-full" />
                                                 </div>
                                             </div>
                                         </div>
@@ -484,9 +483,9 @@ export default function TrainSearch() {
 
                                         acc.push(
                                             <Card key={index} className="overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                                                <div className="grid grid-cols-12 gap-0">
+                                                <div className="grid grid-cols-1 md:grid-cols-12 gap-0">
                                                     {/* Left column - Train info & route (60-70%) */}
-                                                    <div className="col-span-8 p-4 md:p-6 border-r">
+                                                    <div className="col-span-1 md:col-span-8 p-4 md:p-6 md:border-r border-b md:border-b-0">
                                                         <div className="flex justify-between items-center mb-4">
                                                             <div className="flex items-center">
                                                                 <div className="bg-primary/10 p-2 rounded-full mr-3">
@@ -522,8 +521,8 @@ export default function TrainSearch() {
 
                                                         <div className="flex items-center justify-between mb-3">
                                                             <div className="text-center">
-                                                                <p className="font-bold text-2xl">{departureTime}</p>
-                                                                <p className="text-md font-medium">
+                                                                <p className="font-bold text-xl md:text-2xl">{departureTime}</p>
+                                                                <p className="text-sm md:text-md font-medium">
                                                                     {segment?.departureAirport?.locationCode
                                                                         ? new String(
                                                                             segment?.departureAirport?.locationCode
@@ -539,17 +538,17 @@ export default function TrainSearch() {
                                                                 </p>
                                                             </div>
 
-                                                            <div className="flex-1 mx-4 relative">
+                                                            <div className="flex-1 mx-2 md:mx-4 relative">
                                                                 <div className="border-t border-dashed border-gray-300 w-full absolute top-1/2 -translate-y-1/2"></div>
-                                                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-black px-2 text-xs">
+                                                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-background text-black dark:text-white px-2 text-xs">
                                                                     {/* {flightDuration} */}
                                                                 </div>
-                                                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full outline outline-2 outline-primary bg-background"></div>
-                                                                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary"></div>
+                                                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 md:w-3 h-2 md:h-3 rounded-full outline outline-2 outline-primary bg-background"></div>
+                                                                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 md:w-3 h-2 md:h-3 rounded-full bg-primary"></div>
                                                             </div>
 
                                                             <div className="text-center">
-                                                                <p className="font-bold text-2xl">
+                                                                <p className="font-bold text-xl md:text-2xl">
                                                                     {arrivalTime
                                                                         ? `${arrivalTime} ${new Date(
                                                                             segment?.arrivalDateTime
@@ -562,7 +561,7 @@ export default function TrainSearch() {
                                                                         }`
                                                                         : "N/A"}
                                                                 </p>
-                                                                <p className="text-md font-medium">
+                                                                <p className="text-sm md:text-md font-medium">
                                                                     {segment?.arrivalAirport?.locationCode
                                                                         ? new String(
                                                                             segment?.arrivalAirport?.locationCode
@@ -579,35 +578,54 @@ export default function TrainSearch() {
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     {/* Right column - Seat availability (30-40%) */}
-                                                    <div className="col-span-4 dark:bg-slate-900/30 flex flex-col justify-center items-center p-4">
-                                                        <h4 className="text-md font-bold mb-3">Available Seats</h4>
+                                                    <div className="col-span-1 md:col-span-4 dark:bg-slate-900/30 flex flex-col justify-center items-center p-4">
+                                                        <h4 className="text-sm md:text-md font-bold mb-3">Available Seats</h4>
 
-                                                        <div className="flex flex-col gap-4 w-full">
-                                                            <div className="flex justify-between items-center dark:bg-slate-800 rounded-lg p-3 shadow-sm">
-                                                                <div className="flex flex-col">
-                                                                    <span className="text-md font-medium">Business Class</span>
+                                                        <div className="flex flex-col gap-3 md:gap-4 w-full">
+                                                            {businessSeats > 0 ? (
+                                                                <div className="flex justify-between items-center dark:bg-slate-800 rounded-lg p-2 md:p-3 shadow-sm">
+                                                                    <div className="flex flex-col">
+                                                                        <span className="text-sm md:text-md font-medium">Business Class</span>
+                                                                    </div>
+                                                                    <div className="flex items-center bg-blue-100 dark:bg-blue-900/30 px-2 md:px-3 py-1 rounded-full">
+                                                                        <span className="text-md md:text-lg font-bold text-blue-700 dark:text-blue-400">{businessSeats}</span>
+                                                                        <span className="text-[10px] md:text-xs ml-1 text-blue-600 dark:text-blue-500">seats</span>
+                                                                    </div>
                                                                 </div>
-                                                                <div className="flex items-center bg-blue-100 dark:bg-blue-900/30 px-3 py-1 rounded-full">
-                                                                    <span className="text-lg font-bold text-blue-700 dark:text-blue-400">{businessSeats}</span>
-                                                                    <span className="text-xs ml-1 text-blue-600 dark:text-blue-500">seats</span>
+                                                            ) : (
+                                                                <div className="flex justify-between items-center dark:bg-red-800 rounded-lg p-2 md:p-3 shadow-sm">
+                                                                    <div className="flex flex-col">
+                                                                        <span className="text-sm md:text-md font-medium">Business Class</span>
+                                                                    </div>
+                                                                    <div className="flex items-center bg-red-100 dark:bg-red-800/30 px-2 md:px-3 py-1 rounded-full">
+                                                                        <span className="text-md md:text-lg font-bold text-red-700 dark:text-red-400">SOLD OUT</span>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            )}
 
-                                                            <div className="flex justify-between items-center dark:bg-slate-800 rounded-lg p-3 shadow-sm">
-                                                                <div className="flex flex-col">
-                                                                    <span className="text-md font-medium">Economy Class</span>
+                                                            {economySeats > 0 ? (
+                                                                <div className="flex justify-between items-center dark:bg-slate-800 rounded-lg p-2 md:p-3 shadow-sm">
+                                                                    <div className="flex flex-col">
+                                                                        <span className="text-sm md:text-md font-medium">Economy Class</span>
+                                                                    </div>
+                                                                    <div className="flex items-center bg-green-100 dark:bg-green-900/30 px-2 md:px-3 py-1 rounded-full">
+                                                                        <span className="text-md md:text-lg font-bold text-green-700 dark:text-green-400">{economySeats}</span>
+                                                                        <span className="text-[10px] md:text-xs ml-1 text-green-600 dark:text-green-500">seats</span>
+                                                                    </div>
                                                                 </div>
-                                                                <div className="flex items-center bg-green-100 dark:bg-green-900/30 px-3 py-1 rounded-full">
-                                                                    <span className="text-lg font-bold text-green-700 dark:text-green-400">{economySeats}</span>
-                                                                    <span className="text-xs ml-1 text-green-600 dark:text-green-500">seats</span>
+                                                            ) : (
+                                                                <div className="flex justify-between items-center dark:bg-red-800 rounded-lg p-2 md:p-3 shadow-sm">
+                                                                    <div className="flex flex-col">
+                                                                        <span className="text-sm md:text-md font-medium">Economy Class</span>
+                                                                    </div>
+                                                                    <div className="flex items-center bg-red-100 dark:bg-red-800/30 px-2 md:px-3 py-1 rounded-full">
+                                                                        <span className="text-md md:text-lg font-bold text-red-700 dark:text-red-400">SOLD OUT</span>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            )}
                                                         </div>
-                                                        {/*                                                 
-                                                <Button variant="outline" size="sm" className="mt-4 w-full">
-                                                    Select Train
-                                                </Button> */}
                                                     </div>
                                                 </div>
                                             </Card>
