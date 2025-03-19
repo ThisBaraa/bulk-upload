@@ -1,6 +1,6 @@
 {
   "name": "bulk-upload",
-  "version": "v0.12.0",
+  "version": "v0.13.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -15,7 +15,9 @@
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
     "@sentry/nextjs": "^9.2.0",
+    "@types/uuid": "^10.0.0",
     "axios": "^1.8.1",
+    "basic-ftp": "^5.0.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
@@ -27,7 +29,8 @@
     "react-dom": "^18.2.0",
     "sonner": "^2.0.1",
     "tailwind-merge": "^3.0.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",

@@ -9,7 +9,10 @@ import {
     LayoutTemplate,
     LucideIcon,
     Menu,
-    X
+    X,
+    BookAIcon,
+    BookCopyIcon,
+    Upload
 } from "lucide-react";
 import { Footer } from "./footer";
 import { Button } from "./ui/button";
@@ -58,6 +61,16 @@ export function DashboardLayout({ children, currentPath = "/", buildNumber }: Da
             icon: Search,
             label: "Search for a Train",
             href: "/search",
+        },
+        // {
+        //     icon: BookCopyIcon,
+        //     label: "Bookings",
+        //     href: "/book",
+        // },
+        {
+            icon: Upload,
+            label: "Bulk Upload",
+            href: "/upload",
         },
         {
             icon: LayoutTemplate,
