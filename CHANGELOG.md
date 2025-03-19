@@ -2,6 +2,28 @@
 
 All notable changes to the Train Booking System - Bulk Upload project will be documented in this file.
 
+## [0.13.0] - 2025-03-18
+
+### Added
+- New bulk CSV upload feature with FTP server integration
+- Dedicated upload page with file selection and validation
+- Real-time feedback during upload process with toast notifications
+- Secure file transfer to configured FTP server
+- File type validation to ensure only CSV files are processed
+- Unique filename generation to prevent file collisions on the server
+- Error handling with user-friendly error messages
+
+### Changed
+- Updated navigation sidebar to include new Bulk Upload option
+- Added Bulk Upload card to dashboard for quick access
+- Enhanced Quick Actions section with Upload CSV File button
+- Improved overall application navigation structure
+
+### Fixed
+- Proper error handling for FTP connection failures
+- Added type safety throughout the upload process
+- Ensured consistent UI feedback during the entire upload workflow
+
 ## [0.12.0] - 2025-03-17
 
 ### Added

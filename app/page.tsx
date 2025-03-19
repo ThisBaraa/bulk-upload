@@ -20,6 +20,7 @@ import {
   Settings,
   Users,
   Wrench,
+  Upload,
 } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 
@@ -46,6 +47,14 @@ export default function Home() {
       href: "/bookings",
       color: "bg-gradient-to-br from-purple-900 to-indigo-900",
       iconColor: "text-purple-1000",
+    },
+    {
+      title: "Bulk Upload",
+      icon: Upload,
+      description: "Upload CSV files to FTP server",
+      href: "/upload",
+      color: "bg-gradient-to-br from-amber-900 to-orange-900",
+      iconColor: "text-amber-1000",
     },
     {
       title: "Settings",
@@ -102,6 +111,9 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Button variant="outline" className="justify-start" asChild>
                   <Link href="/search">Search for a Train</Link>
+                </Button>
+                <Button variant="outline" className="justify-start" asChild>
+                  <Link href="/upload">Upload CSV File</Link>
                 </Button>
                 <Button variant="outline" className="justify-start">
                   Generate Report

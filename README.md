@@ -122,3 +122,36 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Bulk Upload Feature
+
+The bulk upload feature allows administrators to upload CSV files containing train data directly to an FTP server. This feature streamlines the process of updating train information in bulk.
+
+### How to Use Bulk Upload
+
+1. Navigate to the Bulk Upload page from the dashboard or sidebar
+2. Select a CSV file using the file input (only CSV files are accepted)
+3. Click "Upload to FTP" to transfer the file to the configured FTP server
+4. You'll receive real-time feedback on the upload process via toast notifications
+
+### CSV File Format
+
+Your CSV file should follow this format:
+
+```
+train_id,train_name,departure_station,arrival_station,departure_time,arrival_time,capacity,price
+T001,Express A,Riyadh,Dammam,08:00,10:30,120,150
+T002,Express B,Jeddah,Makkah,09:15,10:45,100,75
+```
+
+## Configuration
+
+To configure the FTP server settings, create a `.env` file based on the provided `.env.example`:
+
+```
+FTP_HOST=your-ftp-server.com
+FTP_PORT=21
+FTP_USER=your-username
+FTP_PASSWORD=your-password
+FTP_REMOTE_DIR=/your-upload-directory
+```
