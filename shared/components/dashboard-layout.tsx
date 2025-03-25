@@ -12,7 +12,8 @@ import {
     X,
     BookAIcon,
     BookCopyIcon,
-    Upload
+    Upload,
+    History
 } from "lucide-react";
 import { Footer } from "./footer";
 import { Button } from "./ui/button";
@@ -62,20 +63,10 @@ export function DashboardLayout({ children, currentPath = "/", buildNumber }: Da
             label: "Search for a Train",
             href: "/search",
         },
-        // {
-        //     icon: BookCopyIcon,
-        //     label: "Bookings",
-        //     href: "/book",
-        // },
         {
             icon: Upload,
             label: "Bulk Upload",
             href: "/upload",
-        },
-        {
-            icon: LayoutTemplate,
-            label: "Templates",
-            href: "/templates",
         },
     ];
 
@@ -153,6 +144,18 @@ export function DashboardLayout({ children, currentPath = "/", buildNumber }: Da
                             ))}
                         </div>
                     </nav>
+
+                    {/* Bottom Links */}
+                    <div className="mt-auto px-3 pb-4">
+                        <div className="border-t border-border/40 pt-4">
+                            <SidebarItem
+                                icon={History}
+                                label="Changelog"
+                                href="/changelog"
+                                active={currentPath === "/changelog"}
+                            />
+                        </div>
+                    </div>
 
                     {/* User Profile */}
                     <div className="p-4 border-t">
