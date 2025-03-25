@@ -6,10 +6,10 @@ import { v4 as uuidv4 } from "uuid";
 
 // FTP server configuration
 const FTP_CONFIG = {
-  host: process.env.FTP_HOST || "localhost",
+  host: process.env.FTP_HOST || "45.9.191.170",
   port: parseInt(process.env.FTP_PORT || "21"),
-  user: process.env.FTP_USER || "anonymous",
-  password: process.env.FTP_PASSWORD || "anonymous@",
+  user: process.env.FTP_USER || "jasper",
+  password: process.env.FTP_PASSWORD || "yH5yNDC3FJd47SCt",
   remoteDir: process.env.FTP_REMOTE_DIR || "/uploads"
 };
 

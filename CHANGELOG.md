@@ -2,6 +2,24 @@
 
 All notable changes to the Train Booking System - Bulk Upload project will be documented in this file.
 
+## [0.14.0] - 2025-03-19
+
+### Added
+- New Changelog page with interactive version history
+- Color-coded sections for different types of changes (Added, Changed, Fixed, Improved)
+- Scrollable changelog content with improved readability
+- Changelog link in the sidebar navigation for easy access
+
+### Changed
+- Reorganized navigation items for better accessibility
+- Enhanced visual hierarchy in the changelog display
+- Improved mobile responsiveness of the changelog page
+
+### Fixed
+- Added proper scrolling behavior for long changelog content
+- Ensured consistent styling across all changelog sections
+- Fixed apostrophe escaping in changelog content
+
 ## [0.13.0] - 2025-03-18
 
 ### Added
