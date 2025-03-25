@@ -1,30 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
 import * as ftp from "basic-ftp";
-import { v4 as uuidv4 } from "uuid";
+import { Readable } from "stream";
 
 // FTP server configuration
 const FTP_CONFIG = {
-  host: process.env.FTP_HOST || "45.9.191.170",
+  host: process.env.FTP_HOST || "localhost",
   port: parseInt(process.env.FTP_PORT || "21"),
-  user: process.env.FTP_USER || "jasper",
-  password: process.env.FTP_PASSWORD || "yH5yNDC3FJd47SCt",
+  user: process.env.FTP_USER || "anonymous",
+  password: process.env.FTP_PASSWORD || "anonymous@",
   remoteDir: process.env.FTP_REMOTE_DIR || "/uploads"
 };
 
-// Temporary upload directory
-const UPLOAD_DIR = join(process.cwd(), "temp-uploads");
+// Convert Buffer to Readable Stream
+function bufferToStream(buffer: Buffer): Readable {
+  const stream = new Readable();
+  stream.push(buffer);
+  stream.push(null);
+  return stream;
+}
 
 export async function POST(request: NextRequest) {
   try {
-    // Create upload directory if it doesn't exist
-    try {
-      await mkdir(UPLOAD_DIR, { recursive: true });
-    } catch (err) {
-      console.error("Error creating upload directory:", err);
-    }
-
     // Get file from form data
     const formData = await request.formData();
     const file = formData.get("file") as File;
@@ -45,18 +41,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate unique filename to prevent collisions
-    const fileExt = file.name.split(".").pop();
-    const uniqueFilename = `${uuidv4()}.${fileExt}`;
-    const originalFilename = file.name;
-    
-    // Save file locally
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const localFilePath = join(UPLOAD_DIR, uniqueFilename);
-    
-    await writeFile(localFilePath, buffer);
-    console.log(`File saved locally at ${localFilePath}`);
+    // Get file buffer and convert to stream
+    const fileBuffer = Buffer.from(await file.arrayBuffer());
+    const fileStream = bufferToStream(fileBuffer);
 
     // Upload to FTP server
     const client = new ftp.Client();
@@ -83,16 +70,15 @@ export async function POST(request: NextRequest) {
         await client.cd(FTP_CONFIG.remoteDir);
       }
       
-      // Upload file
-      console.log(`Uploading ${localFilePath} to ${FTP_CONFIG.remoteDir}/${originalFilename}`);
-      await client.uploadFrom(localFilePath, `${originalFilename}`);
+      // Upload file from stream
+      await client.uploadFrom(fileStream, file.name);
       
       console.log("File uploaded successfully");
       
       return NextResponse.json({
         success: true,
         message: "File uploaded successfully",
-        filename: originalFilename
+        filename: file.name
       });
     } catch (ftpError: unknown) {
       console.error('FTP error:', ftpError);
