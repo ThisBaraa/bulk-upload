@@ -40,14 +40,14 @@ export default function Home() {
       color: "bg-gradient-to-br from-blue-900 to-indigo-900",
       iconColor: "text-blue-1000",
     },
-    {
-      title: "Bookings",
-      icon: Book,
-      description: "View and manage your bookings",
-      href: "/bookings",
-      color: "bg-gradient-to-br from-purple-900 to-indigo-900",
-      iconColor: "text-purple-1000",
-    },
+    // {
+    //   title: "Bookings",
+    //   icon: Book,
+    //   description: "View and manage your bookings",
+    //   href: "/bookings",
+    //   color: "bg-gradient-to-br from-purple-900 to-indigo-900",
+    //   iconColor: "text-purple-1000",
+    // },
     {
       title: "Bulk Upload",
       icon: Upload,
@@ -56,14 +56,14 @@ export default function Home() {
       color: "bg-gradient-to-br from-amber-900 to-orange-900",
       iconColor: "text-amber-1000",
     },
-    {
-      title: "Settings",
-      icon: Settings,
-      description: "Configure system settings",
-      href: "/settings",
-      color: "bg-gradient-to-br from-green-900 to-emerald-900",
-      iconColor: "text-green-1000",
-    },
+    // {
+    //   title: "Settings",
+    //   icon: Settings,
+    //   description: "Configure system settings",
+    //   href: "/settings",
+    //   color: "bg-gradient-to-br from-green-900 to-emerald-900",
+    //   iconColor: "text-green-1000",
+    // },
   ];
 
   return (
@@ -115,15 +115,15 @@ export default function Home() {
                 <Button variant="outline" className="justify-start" asChild>
                   <Link href="/upload">Upload CSV File</Link>
                 </Button>
-                <Button variant="outline" className="justify-start">
+                {/* <Button variant="outline" className="justify-start">
                   Generate Report
-                </Button>
-                <Button variant="outline" className="justify-start">
+                </Button> */}
+                {/* <Button variant="outline" className="justify-start">
                   View Schedule
-                </Button>
-                <Button variant="outline" className="justify-start">
+                </Button> */}
+                {/* <Button variant="outline" className="justify-start">
                   Manage Settings
-                </Button>
+                </Button> */}
               </div>
             </CardContent>
           </Card>
