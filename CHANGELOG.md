@@ -2,6 +2,19 @@
 
 All notable changes to the Train Booking System - Bulk Upload project will be documented in this file.
 
+## [0.15.0] - 2025-03-20
+
+### Fixed
+- Resolved read-only filesystem error in production environment (Vercel)
+- Improved file upload handling by processing files in memory instead of writing to disk
+- Enhanced FTP upload reliability with proper stream handling
+- Fixed buffer upload compatibility issues with basic-ftp library
+
+### Changed
+- Optimized file upload process to be more memory efficient
+- Improved error handling for FTP connection issues
+- Enhanced logging for better debugging in production
+
 ## [0.14.0] - 2025-03-19
 
 ### Added

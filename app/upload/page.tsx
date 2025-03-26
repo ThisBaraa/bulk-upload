@@ -8,7 +8,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { AlertCircle, FileUp, CheckCircle } from "lucide-react";
-import { Alert, AlertDescription } from "@/shared/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/shared/components/ui/alert";
 import { toast } from "sonner";
 
 export default function FileUploadPage() {
@@ -96,8 +96,15 @@ export default function FileUploadPage() {
                     <h1 className="text-3xl font-bold">Bulk Upload</h1>
                     <p className="text-muted-foreground mt-1">Bulk upload your bookings from a CSV file</p>
                 </div>
+                    
                 <div className="container mx-auto px-4 py-8">
-
+                    <Alert variant="default" className="mb-4">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertTitle className="text-md font-bold">Warning</AlertTitle>
+                        <AlertDescription>
+                            Please note that files uploaded here will be sent directly to the production FTP server. Please verify your files before uploading.
+                        </AlertDescription>
+                    </Alert>
                     <Card className="p-6">
                         <div className="space-y-6">
                             <div>
