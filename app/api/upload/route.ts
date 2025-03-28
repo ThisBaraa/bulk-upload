@@ -4,11 +4,11 @@ import { Readable } from "stream";
 
 // FTP server configuration
 const FTP_CONFIG = {
-  host: process.env.FTP_HOST || "localhost",
-  port: parseInt(process.env.FTP_PORT || "21"),
-  user: process.env.FTP_USER || "anonymous",
-  password: process.env.FTP_PASSWORD || "anonymous@",
-  remoteDir: process.env.FTP_REMOTE_DIR || "/uploads"
+  host: process.env.FTP_HOST || "ftp.worldticket.net",
+  port: parseInt(process.env.FTP_PORT || "22"),
+  user: process.env.FTP_USER || "sar-mubasher",
+  password: process.env.FTP_PASSWORD || "6PuQ8ls02tgeJkVk",
+  remoteDir: process.env.FTP_REMOTE_DIR || "/bulk-upload"
 };
 
 // Convert Buffer to Readable Stream
