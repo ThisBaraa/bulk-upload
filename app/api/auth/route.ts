@@ -16,7 +16,7 @@ export async function POST() {
                 headers: {
                     "x-api-key": API_KEY,
                     "Content-Type": "application/json",
-                    "local-name" : "elm",
+                    "local-name" : "mubasher",
                 },
             }
         );
