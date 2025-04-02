@@ -82,8 +82,8 @@ export default function TrainSearch() {
                             isoCurrency: "SAR",
                             requestorID: {
                                 type: "5",
-                                id: "elm", // ✅ Ensure this is a string
-                                name: "elm", // ✅ Ensure this is a string
+                                id: "mubasher", // ✅ Ensure this is a string
+                                name: "mubasher", // ✅ Ensure this is a string
                             },
                             bookingChannel: {
                                 type: "OTA",
