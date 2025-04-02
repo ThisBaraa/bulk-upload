@@ -445,27 +445,29 @@ export default function TrainSearch() {
                                             ? new Date(segment.departureDateTime).toLocaleTimeString("en-US", {
                                                 hour: "2-digit",
                                                 minute: "2-digit",
-                                                timeZone: "Asia/Riyadh"
+                                                timeZone: "Asia/Riyadh",
+                                                hour12: false
                                             })
                                             : "00:00";
                                         const arrivalTime = segment?.arrivalDateTime
                                             ? new Date(segment.arrivalDateTime).toLocaleTimeString("en-US", {
                                                 hour: "2-digit",
                                                 minute: "2-digit",
-                                                timeZone: "Asia/Riyadh"
+                                                timeZone: "Asia/Riyadh",
+                                                hour12: false
                                             })
                                             : "00:00";
                                         const departureDate = segment?.departureDateTime
                                             ? new Date(segment.departureDateTime).toLocaleDateString(
                                                 "en-US",
-                                                { month: "long", day: "numeric", timeZone: "Asia/Riyadh" }
+                                                { month: "long", day: "numeric", timeZone: "Asia/Riyadh", hour12: false }
                                             )
                                             : "";
 
                                         const arrivalDate = segment?.arrivalDateTime
                                             ? new Date(segment.arrivalDateTime).toLocaleDateString(
                                                 "en-US",
-                                                { month: "long", day: "numeric", timeZone: "Asia/Riyadh" }
+                                                { month: "long", day: "numeric", timeZone: "Asia/Riyadh", hour12: false }
                                             )
                                             : "";
 
