@@ -2,6 +2,12 @@
 
 All notable changes to the Train Booking System - Bulk Upload project will be documented in this file.
 
+## [0.13.4] - 2025-03-21
+
+### Fixed
+- Critical: Fixed timezone issue where train departure and arrival times were displayed in user's local timezone instead of Riyadh timezone (UTC+3)
+- Ensured consistent time display across all users regardless of their location
+
 ## [0.15.0] - 2025-03-20
 
 ### Fixed

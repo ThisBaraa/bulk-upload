@@ -440,29 +440,32 @@ export default function TrainSearch() {
                                                 ?.originDestinationOption?.[0];
 
                                         // Format dates
+                                        
                                         const departureTime = segment?.departureDateTime
-                                            ? new Date(segment.departureDateTime).toLocaleTimeString([], {
+                                            ? new Date(segment.departureDateTime).toLocaleTimeString("en-US", {
                                                 hour: "2-digit",
                                                 minute: "2-digit",
+                                                timeZone: "Asia/Riyadh"
                                             })
                                             : "00:00";
                                         const arrivalTime = segment?.arrivalDateTime
-                                            ? new Date(segment.arrivalDateTime).toLocaleTimeString([], {
+                                            ? new Date(segment.arrivalDateTime).toLocaleTimeString("en-US", {
                                                 hour: "2-digit",
                                                 minute: "2-digit",
+                                                timeZone: "Asia/Riyadh"
                                             })
                                             : "00:00";
                                         const departureDate = segment?.departureDateTime
                                             ? new Date(segment.departureDateTime).toLocaleDateString(
                                                 "en-US",
-                                                { month: "long", day: "numeric" }
+                                                { month: "long", day: "numeric", timeZone: "Asia/Riyadh" }
                                             )
                                             : "";
 
                                         const arrivalDate = segment?.arrivalDateTime
                                             ? new Date(segment.arrivalDateTime).toLocaleDateString(
                                                 "en-US",
-                                                { month: "long", day: "numeric" }
+                                                { month: "long", day: "numeric", timeZone: "Asia/Riyadh" }
                                             )
                                             : "";
 
