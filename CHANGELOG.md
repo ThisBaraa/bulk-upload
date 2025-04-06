@@ -33,6 +33,12 @@ All notable changes to the Train Booking System - Bulk Upload project will be do
 - Ensured consistent styling across all changelog sections
 - Fixed apostrophe escaping in changelog content
 
+## [0.13.4] - 2025-03-18
+
+### Fixed
+- Critical: Fixed timezone issue where train departure and arrival times were displayed in user's local timezone instead of Riyadh timezone (UTC+3)
+- Ensured consistent time display across all users regardless of their location
+
 ## [0.13.0] - 2025-03-18
 
 ### Added
